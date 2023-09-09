@@ -43,7 +43,7 @@ int VideoOutput::init()
 	}
 	_yuv_buffer_size = _width * _height * 1.5;
 	_yuv_buffer = (uint8_t*)malloc(_yuv_buffer_size);
-	
+	return 0;
 }
 
 int VideoOutput::main_loop()
@@ -76,16 +76,17 @@ int VideoOutput::main_loop()
 
 void VideoOutput::refresh_loop(SDL_Event* event)
 {
-	double remianing_time = 0.0;
+	double remaining_time = 0.0;
 	SDL_PumpEvents();
 	while (!SDL_PeepEvents(event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT))
 	{
-		if (remianing_time > 0.0)
+		if (remaining_time > 0.0)
 		{
-			this_thread::sleep_for(chrono::milliseconds((int64_t)remianing_time * 1000));
+			int64_t sleep_time = (int64_t)(remaining_time * 1000);
+			this_thread::sleep_for(chrono::milliseconds(sleep_time));
 		}
-		remianing_time = REFRESH_RATE;
-		video_refresh(&remianing_time);
+		remaining_time = REFRESH_RATE;
+		video_refresh(&remaining_time);
 		SDL_PumpEvents();
 	}
 }

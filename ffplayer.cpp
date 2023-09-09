@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
 	{
 		return ret;
 	}
-
+	
 	Decoder* v_decoder = new Decoder(&v_frm_q, &v_pkt_q);
 	if (!v_decoder)
 	{
@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
 	{
 		return ret;
 	}
-	/**/
+	
 	AVRational a_time_base = demuxer->getAudioTimebase();
 	AudioParams audio_params = { 0 };
 	memset(&audio_params, NULL, sizeof(AudioParams));
@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
 		cerr << "audio output init failed" << endl;
 		return -1;
 	}
-
+	
 	AVRational v_time_base = demuxer->getVideoTimebase();
 	VideoOutput* video_output = new VideoOutput(&av_sync, v_time_base, &v_frm_q, v_codec_params->width, v_codec_params->height);
 	if (!video_output)

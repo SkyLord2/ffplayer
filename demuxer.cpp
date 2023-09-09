@@ -83,13 +83,14 @@ void Demuxer::run()
 		if (pkt.stream_index == aidx)
 		{
 			_a_pkt_q->push(&pkt);
-			// av_packet_unref(&pkt);
-			cout << "audio packet queue size: " << _a_pkt_q->size() << endl;
+			//av_packet_unref(&pkt);
+			//cout << "audio packet queue size: " << _a_pkt_q->size() << endl;
 		} 
 		else if (pkt.stream_index == vidx)
 		{
 			_v_pkt_q->push(&pkt);
-			cout << "video packet queue size: " << _v_pkt_q->size() << endl;
+			//cout << "video packet queue size: " << _v_pkt_q->size() << endl;
+			//av_packet_unref(&pkt);
 		}
 		else {
 			av_packet_unref(&pkt);

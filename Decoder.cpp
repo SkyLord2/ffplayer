@@ -77,7 +77,7 @@ void Decoder::run()
 	{
 		if (_frameQ->size() > 10)
 		{
-			cout << _codecCtx->codec_id << "frame queue more than 10, decode pause" << endl;
+			//cout << _codecCtx->codec_id << "frame queue more than 10, decode pause" << endl;
 			this_thread::sleep_for(chrono::milliseconds(10));
 			continue;
 		}
@@ -98,7 +98,7 @@ void Decoder::run()
 				if (ret == 0)
 				{
 					_frameQ->push(frame);
-					cout << _codecCtx->codec->name << "frame queue size: " << _frameQ->size() << endl;
+					cout << _codecCtx->codec->name << " frame queue size: " << _frameQ->size() << endl;
 				}
 				else if (AVERROR(EAGAIN) == ret)
 				{

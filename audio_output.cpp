@@ -20,7 +20,7 @@ void fill_audio_pcm(void* udata, Uint8* stream, int len)
 	int		audio_size = 0;
 	while (len > 0)
 	{
-		cout << "fill pcm len = " << len << endl;
+		//cout << "fill pcm len = " << len << endl;
 		if (is->_audio_buffer_index == is->_audio_buffer_size)
 		{
 			is->_audio_buffer_index = 0;
@@ -28,6 +28,7 @@ void fill_audio_pcm(void* udata, Uint8* stream, int len)
 			if (frame)
 			{
 				is->_pts = frame->pts;
+				cout << "audio pts = " << is->_pts << endl;
 				const AudioParams dst_params = is->_dst_params;
 				if (
 					frame->format != dst_params.sample_format ||
@@ -57,9 +58,13 @@ void fill_audio_pcm(void* udata, Uint8* stream, int len)
 				if (is->_swr_ctx)
 				{
 					// ÖØ²ÉÑù
-					const uint8_t** in = (const uint8_t**)frame->extended_buf;
+					const uint8_t** in = (const uint8_t**)frame->extended_data;
+					if (!in)
+					{
+						cerr << "extended_buf is null" << endl;
+					}
 					uint8_t**      out = &is->_audio_buffer1;
-					int out_samples = frame->nb_samples * dst_params.freqence / frame->sample_rate * 256;
+					int out_samples = frame->nb_samples * dst_params.freqence / frame->sample_rate + 256;
 					int out_bytes = av_samples_get_buffer_size(NULL, dst_params.channels, out_samples, dst_params.sample_format, 0);
 					if (out_bytes < 0)
 					{
@@ -92,7 +97,7 @@ void fill_audio_pcm(void* udata, Uint8* stream, int len)
 				is->_audio_buffer = NULL;
 				is->_audio_buffer_size = 512;
 			}
-		}
+		 }
 		copy_left = is->_audio_buffer_size - is->_audio_buffer_index;
 		if (copy_left > len)
 		{
@@ -113,7 +118,7 @@ void fill_audio_pcm(void* udata, Uint8* stream, int len)
 	if (is->_pts != AV_NOPTS_VALUE)
 	{
 		double pts = is->_pts * av_q2d(is->_time_base);
-		cout << "audio pts = " << pts << endl;
+		//cout << "audio pts = " << pts << endl;
 		is->_av_sync->set_clock(pts);
 	}
 }
