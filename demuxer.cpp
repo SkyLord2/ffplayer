@@ -69,7 +69,7 @@ void Demuxer::run()
 		// TODO
 		if (_a_pkt_q->size() > 100 && _v_pkt_q->size() > 100)
 		{
-			cout << "demuxer pause" << endl;
+			//cout << "demuxer pause" << endl;
 			this_thread::sleep_for(chrono::milliseconds(10));
 			continue;
 		}

@@ -98,7 +98,7 @@ void Decoder::run()
 				if (ret == 0)
 				{
 					_frameQ->push(frame);
-					cout << _codecCtx->codec->name << " frame queue size: " << _frameQ->size() << endl;
+					//cout << _codecCtx->codec->name << " frame queue size: " << _frameQ->size() << endl;
 				}
 				else if (AVERROR(EAGAIN) == ret)
 				{

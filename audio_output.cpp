@@ -28,7 +28,7 @@ void fill_audio_pcm(void* udata, Uint8* stream, int len)
 			if (frame)
 			{
 				is->_pts = frame->pts;
-				cout << "audio pts = " << is->_pts << endl;
+				//cout << "audio pts = " << is->_pts << endl;
 				const AudioParams dst_params = is->_dst_params;
 				if (
 					frame->format != dst_params.sample_format ||
@@ -140,17 +140,17 @@ int AudioOutput::init()
 	wanted_spec.silence  = 0;
 	wanted_spec.callback = fill_audio_pcm;
 	wanted_spec.userdata = this;
-	ret = SDL_OpenAudio(&wanted_spec, &spec);
+	ret = SDL_OpenAudio(&wanted_spec, NULL);
 	if (ret < 0)
 	{
 		cerr << "sdl open audio failed: " << ret << endl;
 		return ret;
 	}
-	_dst_params.channels	   = spec.channels;
-	_dst_params.freqence	   = spec.freq;
-	_dst_params.frame_size     = _src_params.frame_size;
+	_dst_params.channels = wanted_spec.channels; //spec.channels;
+	_dst_params.freqence = wanted_spec.freq;//spec.freq;
+	_dst_params.frame_size = 1024;//_src_params.frame_size;
 	_dst_params.sample_format  = AV_SAMPLE_FMT_S16;
-	_dst_params.channel_layout = av_get_default_channel_layout(spec.channels);
+	_dst_params.channel_layout = av_get_default_channel_layout(2);//av_get_default_channel_layout(spec.channels);
 	SDL_PauseAudio(0);
 	cout << "audio output init end" << endl;
 	return 0;

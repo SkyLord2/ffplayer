@@ -23,13 +23,13 @@ void AVSync::set_clock_at(double pts, double time)
 
 void AVSync::set_clock(double pts)
 {
-	double time = get_microseconds() * 1000000.0;	//s
+	double time = get_microseconds() / 1000000.0;	//s
 	set_clock_at(pts, time);
 }
 
 double AVSync::get_clock()
 {
-	double time = get_microseconds() * 1000000.0;
+	double time = get_microseconds() / 1000000.0;
 	return _pts_drift + time;
 }
 

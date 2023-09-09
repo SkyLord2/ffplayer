@@ -98,11 +98,12 @@ void VideoOutput::video_refresh(double* remaining_time)
 	if (frame)
 	{
 		double pts = frame->pts * av_q2d(_time_base);
-		cout << "video pts = " << pts << endl;
+		//cout << "video pts = " << pts << endl;
 		double diff = pts - _av_sync->get_clock();
 		if (diff > 0)
 		{
 			*remaining_time = FFMIN(*remaining_time, diff);
+			cout << "remaining_time = " << remaining_time << endl;
 			return;
 		}
 		_rect.x = 0;
